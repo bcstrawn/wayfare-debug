@@ -22,7 +22,7 @@ const MongoStore = mongo(session);
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.config({ path: ".env.example" });
+dotenv.config({ path: "../.env.example" });
 
 
 /**
@@ -47,7 +47,7 @@ const app = express();
  * Connect to MongoDB.
  */
 // mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connect(process.env.MONGO_URL || process.env.MONGOLAB_URI);
 
 mongoose.connection.on("error", () => {
   console.log("MongoDB connection error. Please make sure MongoDB is running.");
@@ -72,7 +72,7 @@ app.use(session({
   saveUninitialized: true,
   secret: process.env.SESSION_SECRET,
   store: new MongoStore({
-    url: process.env.MONGODB_URI || process.env.MONGOLAB_URI,
+    url: process.env.MONGO_URL || process.env.MONGOLAB_URI,
     autoReconnect: true
   })
 }));
